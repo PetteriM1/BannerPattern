@@ -7,6 +7,7 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.inventory.PlayerInventory;
+import cn.nukkit.item.ItemDye;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.BannerPattern;
 
@@ -49,6 +50,21 @@ public class Plugin extends PluginBase implements Listener {
                         PlayerInventory inv = e.getPlayer().getInventory();
                         inv.decreaseCount(inv.getHeldItemIndex());
                         banner.spawnToAll();
+                    }
+                }
+            } else if (e.getItem().getId() == 351) {
+                if (e.getBlock().getId() == BlockID.STANDING_BANNER || e.getBlock().getId() == BlockID.WALL_BANNER) {
+                    BlockEntity be = e.getPlayer().getLevel().getBlockEntity(e.getBlock());
+                    if (be instanceof BlockEntityBanner) {
+                        BlockEntityBanner banner = (BlockEntityBanner) be;
+                        if (banner.getPatternsSize() > 0) {
+                            BannerPattern pattern = new BannerPattern(banner.getPattern(0).getType(), ((ItemDye) e.getItem()).getDyeColor());
+                            banner.removePattern(0);
+                            banner.addPattern(pattern);
+                            banner.spawnToAll();
+                            PlayerInventory inv = e.getPlayer().getInventory();
+                            inv.decreaseCount(inv.getHeldItemIndex());
+                        }
                     }
                 }
             }
