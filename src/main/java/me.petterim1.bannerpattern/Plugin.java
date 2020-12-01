@@ -17,7 +17,7 @@ public class Plugin extends PluginBase implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent e) {
         if (e.getAction() == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK || e.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             if (e.getItem().getId() == 434) {
